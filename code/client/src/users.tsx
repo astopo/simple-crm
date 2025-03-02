@@ -19,10 +19,12 @@ export const Users: React.FC = () => {
                 <thead>
                     <tr>
                         <th></th>
+                        <th></th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Age</th>
                         <th>Phone Number</th>
+                        <th>Notes</th>
                     </tr>
                 </thead>
                 <tbody>

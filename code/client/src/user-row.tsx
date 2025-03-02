@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { User } from "./types";
 import axios from "axios";
+import { AddNoteForm } from "./add-note-form";
 
 export const UserRow: React.FC<{ user: User }> = ({ user }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isAddingNote, setIsAddingNote] = useState(false);
     const [firstName, setFirstName] = useState(user.firstName);
     const [lastName, setLastName] = useState(user.lastName);
     const [age, setAge] = useState(`${user.age}`);
@@ -81,15 +83,23 @@ export const UserRow: React.FC<{ user: User }> = ({ user }) => {
             </tr>
         );
     }
+
+    if (isAddingNote) {
+        return (<AddNoteForm onSaveNote={() => setIsAddingNote(false)} userId={user.id} />)
+    }
     return (
         <tr key={user.id}>
             <td>
                 <button onClick={() => setIsEditing(true)}>Edit</button>
             </td>
+            <td>
+                <button onClick={() => setIsAddingNote(true)}>Add Note</button>
+            </td>
             <td>{firstName}</td>
             <td>{lastName}</td>
             <td>{age}</td>
             <td>{phoneNumber}</td>
+            <td>{user.notes?.length}</td>
         </tr>
     );
 };
