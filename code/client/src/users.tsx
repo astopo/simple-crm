@@ -38,13 +38,14 @@ export const Users: React.FC = () => {
             <table className="table-auto w-full">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th></th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Age</th>
                         <th>Phone Number</th>
                         <th>Notes</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

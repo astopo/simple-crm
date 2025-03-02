@@ -33,8 +33,7 @@ export const AddNoteForm: React.FC<{ onSaveNote: Function; userId: number }> = (
                       {success && (
                           <p className="text-green-500">User added successfully</p>
                       )}
-                      <input
-                          type="text"
+                      <textarea
                           placeholder="Note"
                           value={content}
                           onChange={e => setContent(e.target.value)}
