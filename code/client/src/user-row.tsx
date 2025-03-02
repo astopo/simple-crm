@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User } from "./types";
+import { Note, User } from "./types";
 import axios from "axios";
 import { AddNoteForm } from "./add-note-form";
 
@@ -33,6 +33,12 @@ export const UserRow: React.FC<{ user: User, onUserUpdated: Function }> = ({ use
         }
         setLoading(false);
     };
+
+    function onSaveNote(note: Note) {
+        setIsAddingNote(false);
+        onUserUpdated({ ...user, notes: [...user.notes, note] });
+    }
+
     if (isEditing) {
         return (
             <tr>
@@ -86,7 +92,7 @@ export const UserRow: React.FC<{ user: User, onUserUpdated: Function }> = ({ use
     }
 
     if (isAddingNote) {
-        return (<AddNoteForm onSaveNote={() => setIsAddingNote(false)} userId={user.id} />)
+        return (<AddNoteForm onSaveNote={onSaveNote} userId={user.id} />)
     }
     return (
         <tr key={user.id}>

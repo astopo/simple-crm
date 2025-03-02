@@ -11,11 +11,11 @@ export const AddNoteForm: React.FC<{ onSaveNote: Function; userId: number }> = (
         setLoading(true);
         setError("");
         try {
-            await axios.post(`/api/users/${userId}/notes`, {
+            const result = await axios.post(`/api/users/${userId}/notes`, {
                 content
             });
             setSuccess(true);
-            onSaveNote();
+            onSaveNote(result);
         } catch (error) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setError((error as any).response.data);
