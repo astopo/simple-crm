@@ -13,30 +13,23 @@ export const Users: React.FC = () => {
             updateUserList(result.data);
         };
         fetchData();
-    }, [users]);
+    }, []);
 
     function updateUserList(users: User[]) {
-        const userMap = new Map();
-
-        users.forEach(user => {
-            userMap.set(user.id, user)
-        });
-
+        const userMap = new Map(users.map(user => [user.id, user]));
         setUsersById(userMap);
-
-        const userList = usersById.values();
-
-        setUsers(Array.from(userList));
+        setUsers(Array.from(userMap.values()));
     }
 
     function onUserUpdated(user: User) {
         const userMap = new Map(usersById);
-        userMap.set(user.id, user);
+        const oldUser = userMap.get(user.id);
+        // Update the user so we don't lose the notes.
+        const updatedUser = { ...oldUser, ...user };
+        userMap.set(user.id, updatedUser);
         setUsersById(userMap);
 
-        const userList = usersById.values();
-
-        setUsers(Array.from(userList));
+        setUsers(Array.from(userMap.values()));
     }
 
     return (
