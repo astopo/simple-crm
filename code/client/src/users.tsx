@@ -4,14 +4,41 @@ import { User } from "./types";
 import { UserRow } from "./user-row";
 
 export const Users: React.FC = () => {
+    const [usersById, setUsersById] = useState<Map<number, User>>(new Map());
     const [users, setUsers] = useState<User[]>([]);
+
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get("/api/users");
-            setUsers(result.data);
+            updateUserList(result.data);
         };
         fetchData();
-    }, []);
+    }, [users]);
+
+    function updateUserList(users: User[]) {
+        const userMap = new Map();
+
+        users.forEach(user => {
+            userMap.set(user.id, user)
+        });
+
+        setUsersById(userMap);
+
+        const userList = usersById.values();
+
+        setUsers(Array.from(userList));
+    }
+
+    function onUserUpdated(user: User) {
+        const userMap = new Map(usersById);
+        userMap.set(user.id, user);
+        setUsersById(userMap);
+
+        const userList = usersById.values();
+
+        setUsers(Array.from(userList));
+    }
+
     return (
         <div className="w-full">
             <h2 className="text-xl font-fold">Users</h2>
@@ -29,7 +56,7 @@ export const Users: React.FC = () => {
                 </thead>
                 <tbody>
                     {users.map(user => (
-                        <UserRow user={user} key={user.id} />
+                        <UserRow user={user} key={user.id} onUserUpdated={onUserUpdated} />
                     ))}
                 </tbody>
             </table>

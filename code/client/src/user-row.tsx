@@ -3,7 +3,7 @@ import { User } from "./types";
 import axios from "axios";
 import { AddNoteForm } from "./add-note-form";
 
-export const UserRow: React.FC<{ user: User }> = ({ user }) => {
+export const UserRow: React.FC<{ user: User, onUserUpdated: Function }> = ({ user, onUserUpdated }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [isAddingNote, setIsAddingNote] = useState(false);
     const [firstName, setFirstName] = useState(user.firstName);
@@ -18,7 +18,7 @@ export const UserRow: React.FC<{ user: User }> = ({ user }) => {
         setLoading(true);
         setError("");
         try {
-            await axios.put(`/api/users/${user.id}`, {
+            const result = await axios.put(`/api/users/${user.id}`, {
                 firstName,
                 lastName,
                 age,
@@ -26,6 +26,7 @@ export const UserRow: React.FC<{ user: User }> = ({ user }) => {
             });
             setSuccess(true);
             setIsEditing(false);
+            onUserUpdated(result.data);
         } catch (error) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setError((error as any).response.data);
