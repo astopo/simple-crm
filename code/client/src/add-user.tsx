@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export const AddUser: React.FC = () => {
+export const AddUser: React.FC<{ onUserCreated: Function }> = ({ onUserCreated }) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [age, setAge] = useState("");
@@ -14,7 +14,7 @@ export const AddUser: React.FC = () => {
         setLoading(true);
         setError("");
         try {
-            await axios.post("/api/users", {
+            const result = await axios.post("/api/users", {
                 firstName,
                 lastName,
                 age,
@@ -25,6 +25,7 @@ export const AddUser: React.FC = () => {
             setLastName("");
             setAge("");
             setPhoneNumber("");
+            onUserCreated(result.data);
         } catch (error) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setError((error as any).response.data);

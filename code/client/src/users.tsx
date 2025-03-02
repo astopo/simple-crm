@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { User } from "./types";
 import { UserRow } from "./user-row";
+import { AddUser } from "./add-user";
 
 export const Users: React.FC = () => {
     const [usersById, setUsersById] = useState<Map<number, User>>(new Map());
@@ -32,6 +33,14 @@ export const Users: React.FC = () => {
         setUsers(Array.from(userMap.values()));
     }
 
+    function onUserCreated(user: User) {
+        const userMap = new Map(usersById);
+        userMap.set(user.id, user);
+        setUsersById(userMap);
+
+        setUsers(Array.from(userMap.values()));
+    }
+
     return (
         <div className="w-full">
             <h2 className="text-xl font-fold">Users</h2>
@@ -54,6 +63,8 @@ export const Users: React.FC = () => {
                     ))}
                 </tbody>
             </table>
+
+            <AddUser onUserCreated={onUserCreated} />
         </div>
     );
 };
