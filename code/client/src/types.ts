@@ -10,4 +10,5 @@ export interface User {
 export interface Note {
     id: number;
     content: string;
+    createdAt: string;
 }

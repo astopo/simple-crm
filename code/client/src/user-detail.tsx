@@ -41,12 +41,13 @@ export const UserDetail: React.FC<{}> = () => {
                   <div className="h-40 overflow-y-auto border rounded-lg p-3 bg-gray-50">
                       {user.notes.length > 0 ? (
                           user.notes.map((note, index) => (
-                              <div
-                                  key={index}
-                                  className="p-2 border-b last:border-none text-gray-700"
-                              >
-                                  {note.content}
-                              </div>
+                            <div
+                            key={index}
+                            className="p-2 border-b last:border-none text-gray-700"
+                        >
+                            <p className="text-gray-900">{note.content}</p>
+                            <p className="text-sm text-gray-500">{note.createdAt}</p>
+                        </div>
                           ))
                       ) : (
                           <p className="text-gray-400 italic">No notes available.</p>
